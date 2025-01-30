@@ -11,8 +11,8 @@ This is a full-featured blog website built using Django. It allows users to crea
 - Responsive design
 
 ## Technologies Used
-- **Backend:** Django, SQLite/PostgreSQL
-- **Frontend:** HTML, CSS, JavaScript, Bootstrap
+- **Backend:** Django, SQLite
+- **Frontend:** HTML, CSS, JavaScript, TailwindCSS
 - **Authentication:** Django Authentication System
 
 ## Installation
