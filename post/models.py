@@ -2,13 +2,14 @@ from django.db import models
 import uuid
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth.models import User
+from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.
 class Post(models.Model):
     post_id = models.CharField(primary_key=True, default=uuid.uuid4,editable=False,max_length=50)
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/',blank=True,null=True)
-    content = models.TextField()
+    content = CKEditor5Field(config_name='extends')
     created_by = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     date = models.DateTimeField(auto_now_add=True)
 

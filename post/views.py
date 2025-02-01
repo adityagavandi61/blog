@@ -41,10 +41,10 @@ def registration(request):
 
 
 def home(request):
-    postform = PostForm
+    # postform = PostForm()
     post_data = Post.objects.all()
     context = {
-        'post': postform,
+        # 'post': postform,
         'post_data': post_data,
     }
     return render(request, 'home.html', context)
@@ -61,6 +61,12 @@ def post(request, post_id):
     }
     return render(request, 'page.html', context)
 
+def createpost(request):
+    postform = PostForm()
+    context = {
+        'form': postform,
+    }
+    return render(request,'ckeditor/postpage.html',context)
 
 def makepost(request):
     if request.method == "POST":
