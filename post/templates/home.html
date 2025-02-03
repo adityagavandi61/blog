@@ -7,23 +7,23 @@
 {% block content %}
 
 {% include "components/advertisement.html" %}
+{% if post_without_images %}
 <section class="bg-white dark:bg-gray-900">
   <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+    {% if post_without_images.0 %}
     <div
       class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8"
     >
       <h1
         class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-2"
       >
-        How to quickly deploy a static website
+        {{post_without_images.0.title}}
       </h1>
       <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-6">
-        Static websites are now used to bootstrap lots of websites and are
-        becoming the basis for a variety of tools that even influence both web
-        designers and developers.
+        {{ post_without_images.0.content|striptags|truncatechars:350 }}
       </p>
       <a
-        href="#"
+        href="{% url "post" post_without_images.0.post_id %}"
         class="inline-flex justify-center items-center py-2.5 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
       >
         Read more
@@ -44,20 +44,20 @@
         </svg>
       </a>
     </div>
+    {% endif %}
     <div class="grid md:grid-cols-2 gap-8">
+      {% if post_without_images.1 %}
       <div
         class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12"
       >
         <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">
-          Start with Flowbite Design System
+          {{post_without_images.1.title}}
         </h2>
         <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
-          Static websites are now used to bootstrap lots of websites and are
-          becoming the basis for a variety of tools that even influence both web
-          designers and developers.
+          {{ post_without_images.1.content|striptags|truncatechars:350 }}
         </p>
         <a
-          href="#"
+          href="{% url "post" post_without_images.1.post_id %}"
           class="text-blue-600 dark:text-blue-500 hover:underline font-medium text-lg inline-flex items-center"
           >Read more
           <svg
@@ -77,19 +77,19 @@
           </svg>
         </a>
       </div>
+      {% endif %}
+      {% if post_without_images.2 %}
       <div
         class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12"
       >
         <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">
-          Best react libraries around the web
+          {{post_without_images.2.title}}
         </h2>
         <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
-          Static websites are now used to bootstrap lots of websites and are
-          becoming the basis for a variety of tools that even influence both web
-          designers and developers.
+          {{ post_without_images.2.content|striptags|truncatechars:350 }}
         </p>
         <a
-          href="#"
+          href="{% url "post" post_without_images.2.post_id %}"
           class="text-blue-600 dark:text-blue-500 hover:underline font-medium text-lg inline-flex items-center"
           >Read more
           <svg
@@ -109,9 +109,12 @@
           </svg>
         </a>
       </div>
+      {% endif %}
     </div>
   </div>
 </section>
+{% else %}
+{% endif %} 
 <section class="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:p-10">
   <h3 class="font-semibold text-xl mb-2">Hot News</h3>
   <div class="card grid gap-4 md:grid-cols-3">
@@ -119,12 +122,12 @@
   {% if posts.image %}
   <div class="cards">
     <div
-      class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+      class="max-w-sm md:h-[470px] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
     >
       <a href="{% url "post" posts.post_id %}" class="block overflow-hidden rounded-t-lg h-60">
         <img class="rounded-t-lg w-full h-full object-cover" src="{{ posts.image.url }}" alt="{{ posts.image }}" />
       </a>
-      <div class="p-5">
+      <div class="p-5 space-y-1 flex flex-col items-left">
         <a href="{% url "post" posts.post_id %}">
           <h5
             class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -133,11 +136,11 @@
           </h5>
         </a>
         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          {{ posts.content|truncatechars:135 }}
+          {{ posts.content|striptags|truncatechars:135 }}
         </p>
         <a
           href="{% url "post" posts.post_id %}"
-          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="inline-flex items-center px-3 my-2 w-1/2 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Read more
           <svg
@@ -164,34 +167,61 @@
   {% endfor %}
 </div>
 </section>
-<section class="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:p-10">
-  <h3 class="font-semibold text-xl mb-2">Recent News</h3>
-  <div class="cards">
+{% if post_without_images %}
+<section class="bg-white dark:bg-gray-900">
+  <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+    {% if post_without_images.3 %}
     <div
-      class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+      class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8"
     >
-      <a href="#" class="block overflow-hidden rounded-t-lg h-60">
-        <img class="rounded-t-lg" src="{% static "assets/el-s-ysRgPN0B618-unsplash.jpg" %}" alt="" />
+      <h1
+        class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-2"
+      >
+        {{post_without_images.3.title}}
+      </h1>
+      <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-6">
+        {{ post_without_images.3.content|striptags|truncatechars:350 }}
+      </p>
+      <a
+        href="{% url "post" post_without_images.3.post_id %}"
+        class="inline-flex justify-center items-center py-2.5 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+      >
+        Read more
+        <svg
+          class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M1 5h12m0 0L9 1m4 4L9 9"
+          />
+        </svg>
       </a>
-      <div class="p-5">
-        <a href="#">
-          <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            Noteworthy technology acquisitions 2021
-          </h5>
-        </a>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Here are the biggest enterprise technology acquisitions of 2021 so
-          far, in reverse chronological order.
+    </div>
+    {% endif %}
+    <div class="grid md:grid-cols-2 gap-8">
+      {% if post_without_images.4 %}
+      <div
+        class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12"
+      >
+        <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">
+          {{post_without_images.4.title}}
+        </h2>
+        <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
+          {{ post_without_images.4.content|striptags|truncatechars:350 }}
         </p>
         <a
-          href="#"
-          class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Read more
+          href="{% url "post" post_without_images.4.post_id %}"
+          class="text-blue-600 dark:text-blue-500 hover:underline font-medium text-lg inline-flex items-center"
+          >Read more
           <svg
-            class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+            class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -207,9 +237,44 @@
           </svg>
         </a>
       </div>
+      {% endif %}
+      {% if post_without_images.5 %}
+      <div
+        class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12"
+      >
+        <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">
+          {{post_without_images.5.title}}
+        </h2>
+        <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">
+          {{ post_without_images.5.content|striptags|truncatechars:350 }}
+        </p>
+        <a
+          href="{% url "post" post_without_images.5.post_id %}"
+          class="text-blue-600 dark:text-blue-500 hover:underline font-medium text-lg inline-flex items-center"
+          >Read more
+          <svg
+            class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+            />
+          </svg>
+        </a>
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>
+{% else %}
+{% endif %}
 {% include "components/createpost.html" %} 
 {% include "components/postform.html"%} 
 {% endblock %}

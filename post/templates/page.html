@@ -41,18 +41,7 @@
           {{ post.title }}
         </h1>
       </header>
-      <p class="lead">{{ post.content|linebreaks }}</p>
-      {% if post.image %}
-      <p>
-        <img
-          src="{{ post.image.url }}"
-          class="rounded-lg"
-          alt="{{ post.created_by }}postphoto"
-        />
-      </p>
-      {% else %}
-      <p></p>
-      {% endif %}
+      <div class="content">{{ post.content|safe }}</div>
       <section class="not-format">
         <div class="flex justify-between items-center mb-6">
           <h2

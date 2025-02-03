@@ -115,6 +115,12 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['image', 'title', 'content', 'created_by']
 
+        help_texts = {
+            'image': " Upload an Image for thubnail of Blog"
+        }
+        labels = {
+            'image':"Thumbnail"
+        }
         widgets = {
             'title': forms.TextInput(
                 attrs={
@@ -128,9 +134,6 @@ class PostForm(forms.ModelForm):
                     'required': False,
                 }),
             'created_by': forms.HiddenInput()
-        }
-        help_text = {
-            'image': 'Upload an image for your blog post (optional).',
         }
         content = CKEditor5Widget(attrs={
             'class': 'django_ckeditor_5'

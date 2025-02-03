@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from post.forms import UserForm, SignUpForm, PostForm, CommentForm
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from post.models import Post, Comment
+from post.models import Post, Comment,Advertisment
 # Create your views here.
 
 
@@ -41,14 +41,18 @@ def registration(request):
 
 
 def home(request):
-    # postform = PostForm()
-    post_data = Post.objects.all()
+    head_advertisement = Advertisment.objects.all().order_by('-id')[:1]
+    post_data = Post.objects.exclude(image='')[:12]
+    post_without_images = Post.objects.filter(image="")[:9]
     context = {
-        # 'post': postform,
+        'head_advertisement':head_advertisement,
+        'post_without_images':post_without_images,
         'post_data': post_data,
     }
     return render(request, 'home.html', context)
 
+def dashboard(request,username):
+    return render(request,'dashboard.html')
 
 def post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -61,8 +65,17 @@ def post(request, post_id):
     }
     return render(request, 'page.html', context)
 
+
 def createpost(request):
-    postform = PostForm()
+    if request.method == "POST":
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            post_data = post_form.save(commit=False)
+            post_data.created_by = request.user
+            post_data.save()
+            return redirect('post', post_id=post_data.post_id)
+    else:
+        postform = PostForm()
     context = {
         'form': postform,
     }
