@@ -75,22 +75,21 @@
           class="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900"
         >
           <footer class="flex justify-between items-center mb-2">
-            <div class="flex items-center">
+            <div class="flex items-center flex-col md:flex-row">
               <p
                 class="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white"
               >
                 <img
                   class="mr-2 w-6 h-6 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                  alt="{{ comments.username }}"
+                  alt="{{ comments.comment_by.username }}"
                 />{{ comments.comment_by.first_name }} {{ comments.comment_by.last_name }}
               </p>
               <p class="text-sm text-gray-600 dark:text-gray-400">
-                <time pubdate datetime="2022-02-08" title="February 8th, 2022"
-                  >{{ comments.date }}</time
-                >
+                <time pubdate datetime="2022-02-08" title="February 8th, 2022">{{ comments.date }}</time>
               </p>
             </div>
+            {% if user.is_authenticated and comments.comment_by.username == user.username %}
             <button
               id="dropdownComment1Button"
               data-dropdown-toggle="dropdownComment1"
@@ -110,7 +109,6 @@
               </svg>
               <span class="sr-only">Comment settings</span>
             </button>
-            {% if user.is_authenticated %}
             <!-- Dropdown menu -->
             <div
               id="dropdownComment1"

@@ -24,6 +24,8 @@ def logout_view(request):
     auth_logout(request)
     return redirect('login')
 
+def delete(request,post_id):
+    pass
 
 def registration(request):
     if request.method == 'POST':
@@ -52,7 +54,13 @@ def home(request):
     return render(request, 'home.html', context)
 
 def dashboard(request,username):
-    return render(request,'dashboard.html')
+    post = Post.objects.filter(created_by=request.user.id)
+    head_advertisement = Advertisment.objects.filter(promoted_by=request.user.id).order_by('-id')
+    context = {
+        'post': post,
+        'head_advertisement':head_advertisement,
+    }
+    return render(request,'dashboard.html',context)
 
 def post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)

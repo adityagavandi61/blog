@@ -19,6 +19,7 @@ class Post(models.Model):
 class Advertisment(models.Model):
     post = models.ForeignKey(Post,related_name='post',on_delete=models.CASCADE)
     link = models.URLField(null=True,blank=True, max_length=200)
+    promoted_by = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     is_advertisement = models.BooleanField(default=False)
     is_headadvertisment = models.BooleanField(default=False)
 
