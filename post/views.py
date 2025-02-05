@@ -24,9 +24,6 @@ def logout_view(request):
     auth_logout(request)
     return redirect('login')
 
-def delete(request,post_id):
-    pass
-
 def registration(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -62,6 +59,35 @@ def dashboard(request,username):
     }
     return render(request,'dashboard.html',context)
 
+def edit(request,pk):
+    try:
+        comments = Comment.objects.filter(comment_id=pk)
+        posts = Post.objects.filter(post_id=pk)
+        if comments:
+            form = CommentForm(request.POST)
+            return redirect('post'+pk)
+        elif posts:
+            return redirect('createpost')
+        else:
+            return redirect('post'+pk)
+    except  Exception as e:
+        print(e)
+
+    
+def delete(request,pk):
+    try:
+        comments = Comment.objects.filter(comment_id=pk)
+        post_data = Post.objects.filter(post_id=pk)
+        if comments:
+          print(comments)
+          return None
+        if post_data:
+            print(post_data)
+            return redirect('dashboard'+user.username)
+    except:
+        pass
+    pass
+
 def post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     comment_text = Comment.objects.filter(comment_post=post_id).order_by('-date')[:5]
@@ -73,6 +99,23 @@ def post(request, post_id):
     }
     return render(request, 'page.html', context)
 
+
+def editpost(request,pk):
+    post_data = get_object_or_404(Post,pk=pk)
+    if request.method == "POST":
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            post_data = post_form.save(commit=False)
+            post_data.created_by = request.user
+            post_data.save()
+            return redirect('post', post_id=post_data.post_id)
+    else:
+        postform = PostForm()
+    context = {
+        'form': postform,
+        'post':post_data
+    }
+    return render(request,'ckeditor/postpage.html',context)
 
 def createpost(request):
     if request.method == "POST":

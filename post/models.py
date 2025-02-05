@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 from mptt.models import MPTTModel, TreeForeignKey
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,AbstractUser
 from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.

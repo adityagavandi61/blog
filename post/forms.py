@@ -136,7 +136,7 @@ class PostForm(forms.ModelForm):
             'created_by': forms.HiddenInput()
         }
         content = CKEditor5Widget(attrs={
-            'class': 'django_ckeditor_5'
+            'class': 'django_ckeditor_5',
         },
             config_name='extends')
 

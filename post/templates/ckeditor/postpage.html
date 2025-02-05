@@ -8,8 +8,7 @@ Make post
 <section class='px-5 md:px-12 lg:px-48 min-h-screen'>
 {{ form.media }} {% comment %} require for js  {% endcomment %}
 <form method="POST" enctype="multipart/form-data" class='space-y-2'>
-    {% csrf_token %}    
-    {% comment %} {{ form.as_p }} {% endcomment %}
+    {% csrf_token %}  
     {% for fields in form.visible_fields %}
         <div class="fields">
             <label class='mb-2' for="{{ fields.id_for_label }}">{{ fields.label }}
